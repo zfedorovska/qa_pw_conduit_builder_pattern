@@ -1,5 +1,6 @@
 import { test as base } from '@playwright/test';
 import { ArticlesApi } from '../../src/api/endpoints/ArticlesApi';
+import { TestDataDirector } from '../../src/common/testData/builders/TestDataDirector';
 
 type ArticlePayload = {
   title: string;
@@ -7,6 +8,8 @@ type ArticlePayload = {
   body: string;
   tagList?: string[];
 };
+
+const testDataDirector = new TestDataDirector();
 
 export const test = base.extend<{
   articlesApi: ArticlesApi;
@@ -20,13 +23,13 @@ export const test = base.extend<{
 
   // No tags
   articleWithoutTags: async ({}, use) => {
-    const article = testDataDirector.article().withTags(0).build();
+    const article = testDataDirector.article.buildWithEmptyTags();
     await use(article);
   },
 
   // Exactly one tag
   articleWithOneTag: async ({}, use) => {
-    const article = testDataDirector.article().withTags(1).build();
+    const article = testDataDirector.article.buildWithTagsCount(1);
     await use(article);
   },
 });
