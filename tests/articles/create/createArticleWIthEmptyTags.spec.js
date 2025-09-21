@@ -1,23 +1,25 @@
 import { test } from '../../_fixtures/fixtures';
 
-test(`Create article with empty tags`, async ({
+test('Create article with empty tags', async ({
   registeredUser,
   articlesApi,
-  articleWithoutTags,
+  testDataDirector,
 }) => {
-  const article = articleWithoutTags;
-  const response = await articlesApi.createArticle(
-    article,
-    registeredUser.token,
-  );
+  const a = testDataDirector.article.buildDefault(0);
+
+  const payload = {
+    title: a.title,
+    description: a.description,
+    body: a.text,
+    tagList: [], // explicitly empty
+  };
+
+  const response = await articlesApi.createArticle(payload, registeredUser.token);
 
   await articlesApi.assertSuccessResponseCode(response);
   await articlesApi.assertResponseBodyContainsSlug(response);
-  await articlesApi.assertArticleTitleHasCorrectValue(response, article.title);
-  await articlesApi.assertArticleDescriptionHasCorrectValue(
-    response,
-    article.description,
-  );
-  await articlesApi.assertArticleBodyHasCorrectValue(response, article.body);
-  await articlesApi.assertArticleTagsHasCorrectValue(response, article.tagList);
+  await articlesApi.assertArticleTitleHasCorrectValue(response, payload.title);
+  await articlesApi.assertArticleDescriptionHasCorrectValue(response, payload.description);
+  await articlesApi.assertArticleBodyHasCorrectValue(response, payload.body);
+  await articlesApi.assertArticleTagsHasCorrectValue(response, payload.tagList);
 });

@@ -1,6 +1,5 @@
 import { test as base } from '@playwright/test';
 import { ArticlesApi } from '../../src/api/endpoints/ArticlesApi';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 
 export const test = base.extend<{
   articlesApi;

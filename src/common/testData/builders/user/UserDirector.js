@@ -7,25 +7,33 @@ export class UserDirector {
 
   buildUser() {
     this.builder.reset();
-
     this.builder.setUsername();
     this.builder.setEmail();
     this.builder.setPassword();
-
-    const user = this.builder.getProduct();
-
-    return user;
+    return this.builder.getProduct();
   }
 
   buildWithEmptyEmail() {
     this.builder.reset();
-
     this.builder.setUsername();
     this.builder.setEmail('');
     this.builder.setPassword();
+    return this.builder.getProduct();
+  }
 
-    const newUser = this.builder.getProduct();
+  buildWithEmptyPassword() {
+    this.builder.reset();
+    this.builder.setUsername();
+    this.builder.setEmail();
+    this.builder.setPassword('');
+    return this.builder.getProduct();
+  }
 
-    return newUser;
+  buildWithEmptyUsername() {
+    this.builder.reset();
+    this.builder.setUsername('');
+    this.builder.setEmail();
+    this.builder.setPassword();
+    return this.builder.getProduct();
   }
 }

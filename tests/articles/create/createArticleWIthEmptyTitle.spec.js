@@ -1,17 +1,20 @@
 import { test } from '../../_fixtures/fixtures';
 
-test(`Create article with empty title`, async ({
+test('Create article with empty title', async ({
   registeredUser,
   articlesApi,
-  articleWithoutTags,
+  testDataDirector,
 }) => {
-  const article = articleWithoutTags;
-  article['title'] = null;
+  const a = testDataDirector.article.buildDefault(0);
 
-  const response = await articlesApi.createArticle(
-    article,
-    registeredUser.token,
-  );
+  const payload = {
+    title: null,               // force empty title
+    description: a.description,
+    body: a.text,
+    tagList: [],
+  };
+
+  const response = await articlesApi.createArticle(payload, registeredUser.token);
 
   await articlesApi.assertInternalServerErrorResponseCode(response);
 });
